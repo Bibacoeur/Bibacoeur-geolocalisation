@@ -18,7 +18,13 @@
 
     <script type="text/javascript">
 	
-     
+         if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
+  document.addEventListener("deviceready", initialize, false);
+} else {
+  google.maps.event.addDomListener(window, 'load', initialize);
+ //this is the browser
+}
+
 	  function initialize() {
 		
 		var  joueur_position = {
@@ -105,7 +111,6 @@ alert(' activer geolocalisation');
   })
 }
 
-google.maps.event.addDomListener(window, 'load', initialize);
 
       </script>
 </head>
