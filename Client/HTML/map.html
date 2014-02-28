@@ -18,6 +18,8 @@
 
     <script type="text/javascript">
 	
+	
+	google.maps.event.addDomListener(window, 'load', initialize);
 	  function initialize() {
 		
 		var  joueur_position = {
@@ -105,7 +107,7 @@ alert(' activer geolocalisation');
 }
 
 
-$(function() {
+/*$(function() {
          if (navigator.userAgent.match(/(iPhone|iPod|iPad|Android|BlackBerry|IEMobile)/)) {
   document.addEventListener("deviceready", initialize, false);
 
@@ -113,7 +115,7 @@ $(function() {
   google.maps.event.addDomListener(window, 'load', initialize);
  //this is the browser
 }
-});
+});*/
 
       </script>
 </head>
