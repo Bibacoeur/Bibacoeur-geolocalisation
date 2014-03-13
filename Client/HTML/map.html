@@ -3,6 +3,12 @@
 <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
     <meta charset="UTF-8">
+    <access origin="http://127.0.0.1*"/> <!-- allow local pages -->
+
+	<access origin="http://google.com" subdomains="true"/>
+	<access origin="http://gstatic.com" subdomains="true"/>
+	<access origin="https://google.com" subdomains="true"/>
+	<access origin="https://gstatic.com" subdomains="true"/>
     	<style type="text/css">
       	html { height: 100% }
       	body { height: 50%; margin: 20; padding: 20 }
