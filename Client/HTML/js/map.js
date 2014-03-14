@@ -1,6 +1,9 @@
 // JavaScript Document
 
-google.maps.event.addDomListener(window, 'load', initialize);
+//google.maps.event.addDomListener(window, 'load', initialize);
+$(document).delegate("#map", 'pageinit', function (event) {
+    initialize();
+});
 	
 function initialize() {
 	
