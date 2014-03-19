@@ -13,3 +13,18 @@ overflow:hidden;
 display:block;
 }
 
+.checkin {
+	width: 100px;
+	height: 30px;
+	margin: 5px;
+}
+
+.info {
+	width: 100px;
+	height: 30px;
+	margin: 5px;
+}
+
+.departement {
+	font-size:14px;
+}
