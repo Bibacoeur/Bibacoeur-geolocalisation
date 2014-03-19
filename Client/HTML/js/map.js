@@ -33,7 +33,7 @@ function initialize() {
 	
 	
 	//On simule la position du joueur à un point hors du campus pour qu'il puisse consulter la carte sans pouvoir réaliser de check-in
-	var position_joueur = new google.maps.LatLng(45.7824820 	,4.8768123);
+	var position_joueur = new google.maps.LatLng(0,0);
 
 	//On actualise la position du joueur sans recharger toute la carte
 	navigator.geolocation.watchPosition(onSuccess, onError),{maximumAge:600000, timeout:10000, enableHighAccuracy: true};
