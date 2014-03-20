@@ -13,44 +13,7 @@ overflow:hidden;
 display:block;
 }
 
-.modal
-{
-    padding-top:10%;
-	padding-bottom:10%;
-    position: absolute;
-	height:80%;
-	width:92.5%;
-    left: 0;
-    right: 0;
-    overflow : hidden;
-    background-color: #000;
-    opacity:0.4;
-    filter:alpha(opacity=40); /* For IE8 and earlier */
-    z-index: 1000; /* Important to set this */  
-    display: none;
-}
 
-.modalContent
-{
-	margin-top:5%;
-	margin-left : 5%;
-	margin-right: 5%;
-	padding-top:10%;
-	padding-bottom:10%;
-	padding-left:10%;
-	padding-right:10%;
-    position: absolute;  
-    width: 80%;
-    height: 80%;
-    overflow : hidden;
-    padding: 20px;
-    
-    background-color: #FFF;
-    border: 4px solid #333;
-    z-index: 1001; /* Important to set this higher than .modal */
-    
-    display: none;
-}
 
 
 .checkin {
