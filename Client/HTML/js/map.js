@@ -469,7 +469,7 @@ function initialize() {
 		
 		
   		//On stocke toutes les entreprises dans un tableau d'objets possédant des informations propres aux zones
-		var Entreprise = new Array();
+		var Entreprise = [];
 		Entreprise[0] = {Objet :GI,
 						 Chemin : "GI.html",
 						 srcImage : 'img/BMC2.png',
