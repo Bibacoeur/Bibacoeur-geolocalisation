@@ -28,58 +28,7 @@ function initialize() {
 	
 	 var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
 	 
-	//On charge la carte une fois à l'ouverture de la page 
-	loadmap();
-	
-	
-	//On simule la position du joueur à un point hors du campus pour qu'il puisse consulter la carte sans pouvoir réaliser de check-in
-	var position_joueur = new google.maps.LatLng(0,0);
-
-	//On actualise la position du joueur sans recharger toute la carte
-	navigator.geolocation.watchPosition(onSuccess, onError),{maximumAge:600000, timeout:10000, enableHighAccuracy: true};
-  
-  	//géolocalisation : off
-    function onError(error) {
-		alert(' activer geolocalisation');		
- 	} 
-  
-
-  	//géolocalisation : on
-  	function onSuccess(position) { 
- 		position_joueur = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		setcircle();
-	}
-
-	//Distance à laquelle le joueur peut se localiser (rayon du cercle)
-	var precision_metre = 30;
-	
-	var displaycurrentposition = new google.maps.Circle();
-	
-	//Lorsque l'on récupère la position du joueur on affiche le cercle
-	function setcircle() {
-		var position_options = {
-	  		strokeColor: '#FF0000',
-      		strokeOpacity: 0.8,
-      		strokeWeight: 2,
-      		fillColor: '#FF0000',
-      		fillOpacity: 0.35,
-      		map: map,
-      		center: position_joueur,
-      		radius: precision_metre,
-   	 	};
-		//On efface l'ancien cercle pour ne pas surcharger la carte
-		displaycurrentposition.setMap(null);
-		displaycurrentposition = new google.maps.Circle(position_options);
-		//Pn centre la carte sur le joueur
-		map.panTo(position_joueur);
-        map.setZoom(17);
-	}
-		
-	//fonction appelé au chargement de la carte
-	function loadmap() {
-	
-	
-		// On définit les coordonnées de chaque zone
+	 // On définit les coordonnées de chaque zone
   		var GICoords = [
     		new google.maps.LatLng(45.78279609583433, 4.872613258335832),
 			new google.maps.LatLng(45.78311783435683, 4.873997223942524),
@@ -285,19 +234,19 @@ function initialize() {
   		// On définit les zones
   		var GI = new google.maps.Polygon({
     		paths: GICoords,
-    		strokeColor: '#00FFFF',
+    		strokeColor: '#00F12F',
     		strokeOpacity: 0.8,
     		strokeWeight: 2,
-    		fillColor: '#00FFFF',
+    		fillColor: '#10FF3F',
     		fillOpacity: 0.35
   		});
   
    		var BMC = new google.maps.Polygon({
     		paths: BMCCoords,
-    		strokeColor: '#00FFFF',
+    		strokeColor: '#00F12F',
     		strokeOpacity: 0.8,
     		strokeWeight: 2,
-    		fillColor: '#00FFFF',
+    		fillColor: '#10FF3F',
     		fillOpacity: 0.35
   		});
 		
@@ -534,7 +483,7 @@ function initialize() {
 						 content :  '<div style="line-height:1.35;overflow:hidden;white-space:nowrap"><center class="departement"><b>GI</b><br/></center>			<button class="checkin" disabled>Check-in</button><br/><button class="info">Informations</button></div>'
 						 };
 		Entreprise[1] = {Objet :BMC,
-						 Chemin : "BMC.html",
+						 Chemin : "BMC_2.html",
 						 srcImage : 'img/BMC2.png',
 						 swBound : new google.maps.LatLng(45.7823848, 4.8766084),
 						 neBound : new google.maps.LatLng(45.7827290, 4.8769196),
@@ -778,26 +727,83 @@ function initialize() {
 						 Overlay : null,
 						 content : '<div style="line-height:1.35;overflow:hidden;white-space:nowrap"><center class="departement"><b>SGM</b><br/></center>			<button class="checkin" disabled>Check-in</button><br/><button class="info">Informations</button></div>'
 						 };
-						 
+
+	 
+	 
+	//On charge la carte une fois à l'ouverture de la page 
+	loadmap();
+	
+	
+	//On simule la position du joueur à un point hors du campus pour qu'il puisse consulter la carte sans pouvoir réaliser de check-in
+	var coordonnees_joueur = {
+		latitude : 0,
+		longitude : 0
+	}
+	
+	var position_joueur = new google.maps.LatLng(coordonnees_joueur.latitude,coordonnees_joueur.longitude);
+
+	//On actualise la position du joueur sans recharger toute la carte
+	navigator.geolocation.watchPosition(onSuccess, onError),{maximumAge:600000, timeout:10000, enableHighAccuracy: true};
+  
+  	//géolocalisation : off
+    function onError(error) {
+		alert(' activer geolocalisation');		
+ 	} 
+  
+
+  	//géolocalisation : on
+  	function onSuccess(position) { 
+		coordonnees_joueur.latitude = position.coords.latitude;
+		coordonnees_joueur.longitude = position.coords.longitude;
+ 		position_joueur = new google.maps.LatLng(coordonnees_joueur.latitude, coordonnees_joueur.longitude);
+		setcircle();
+	}
+
+	//Distance à laquelle le joueur peut se localiser (rayon du cercle)
+	var precision_metre = 30;
+	
+	var displaycurrentposition = new google.maps.Circle();
+	
+	//Lorsque l'on récupère la position du joueur on affiche le cercle
+	function setcircle() {
+		var position_options = {
+	  		strokeColor: '#FF0000',
+      		strokeOpacity: 0.8,
+      		strokeWeight: 2,
+      		fillColor: '#FF0000',
+      		fillOpacity: 0.35,
+      		map: map,
+      		center: position_joueur,
+      		radius: precision_metre,
+			clickable : false
+   	 	};
+		//On efface l'ancien cercle pour ne pas surcharger la carte
+		displaycurrentposition.setMap(null);
+		displaycurrentposition = new google.maps.Circle(position_options);
+		//Pn centre la carte sur le joueur
+		map.panTo(position_joueur);
+        map.setZoom(17);
+	}
 		
-		
+	//fonction appelé au chargement de la carte
+	function loadmap() {
+
 		//On affiche chaque entreprise ainsi que son image sur la carte 
 		for (var i=0;i<Entreprise.length;i++) {
   			Entreprise[i].Objet.setMap(map);
 			Entreprise[i].bounds = new google.maps.LatLngBounds(Entreprise[i].swBound, Entreprise[i].neBound);
 			Entreprise[i].Overlay = new google.maps.GroundOverlay(Entreprise[i].srcImage,Entreprise[i].bounds);
-			Entreprise[i].Overlay.setMap(map);
+		/*	Entreprise[i].Overlay.setMap(map);*/
 		};
-		
+
+		//fin loadmap()
+	};
 	
-		
-		
-		
 		//Fonction permettant de récupérer les coordonnées sur le cercle pour savoir si ce cerlce intersecte une autre zone
 		function findCoordinates(lat, long, radius)
 		{
    			 	// Combien de points décrivent le cercle? 
-    			var numberOfPoints = 80;
+    			var numberOfPoints = 100;
     			var degreesPerPoint = 360 / numberOfPoints;
 
   			  	// Angle courrant (incrémenté de 0 à 360)
@@ -838,7 +844,7 @@ function initialize() {
 			}
 			//On regarde si la zone n'est pas accessible via le cercle
 	 		else {
-					var points = findCoordinates(position_joueur.currentlat,position_joueur.currentlong,precision_metre); 
+					var points = findCoordinates(coordonnees_joueur.latitude,coordonnees_joueur.longitude,precision_metre); 
 					var i = 0;
 					var ok = false;
 					while (i<points.length && !(ok)) {
@@ -875,163 +881,189 @@ function initialize() {
 		// Lors d'un click sur une entreprise, on affiche l'infowindow et on écoute un click possible sur "informations" ou "checkin"
 		google.maps.event.addListener(Entreprise[0].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[0],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[0].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[0])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé́́!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[1].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[1],event.latLng);
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[1].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[1])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[2].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[2],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[2].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[2])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé́!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[3].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[3],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[3].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[3])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[4].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[4],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[4].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[4])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[5].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[5],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[5].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[5])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[6].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[6],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[6].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[6])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[7].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[7],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[7].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[7])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[8].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[8],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[8].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[8])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[9].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[9],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[9].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[9])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[10].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[10],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[10].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[10])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[11].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[11],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[11].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[11])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[12].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[12],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[12].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[12])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[13].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[13],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[13].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[13])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[14].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[14],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[14].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[14])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[15].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[15],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[15].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[15])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[16].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[16],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[16].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[16])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[17].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[17],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[17].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[17])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[18].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[18],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[18].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[18])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[19].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[19],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[19].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[19])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[20].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[20],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[20].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[20])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[21].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[21],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[21].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[21])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[22].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[22],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[22].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[22])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[23].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[23],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[23].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[23])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[24].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[24],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[24].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[24])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
 		google.maps.event.addListener(Entreprise[25].Objet,'click', function(event) {
 			show_myInfowindow(Entreprise[25],event.latLng);	
-			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){window.location.href= Entreprise[25].Chemin})
+			google.maps.event.addDomListener(document.getElementsByClassName('info')[0], 'click', function(){openinfo(Entreprise[25])})
 			google.maps.event.addDomListener(document.getElementsByClassName('checkin')[0], 'click', function(){alert("Check-in réalisé!")})	
   		})
 		
-	};
-
+		
+		function openinfo(entreprise) {
+			if(!$("div.modal").is(':visible')){
+       	 		$("div.modal").show(100);
+        		$("div.modalContent").delay(150).show(400);
+				$("div.modalContent").load(entreprise.Chemin);
+				infowindow.close(map);
+    		}
+		}
   	
+		$("div.modal").click( function () {
+   			// Close the modal
+    		if($("div.modal").is(':visible')) {
+        		$("div.modal").delay(200).hide(100);
+        		$("div.modalContent").hide(200);
+				$("div.modalContent").html('');	
+			}
+		});
+
+		$("div.modalContent").click( function (e) {
+    		// If you put the modal content inside modal background you need to
+    		// stop propagation of the click event so that clicking inside
+    		// the modal content doesn't close the modal
+    
+    		// Prevent click event to bubble up to div.modal
+    		//e.stopPropagation();
+		});
+		
+
 	
 //fin initialize
 }
